@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Verify dist/ is up to date
+        run: |
+          if ! git diff --exit-code dist/; then
+            echo "::error::dist/ is out of date. Run 'npm run build' and commit the result."
+            exit 1
+          fi
+
+  e2e:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Secret to File
+        id: secret
+        uses: ./
+        with:
+          # base64 fixture of a hello-world script; no repo secret needed,
+          # so the job also works on forks and pull requests
+          base64-encoded-secret: "IyEvdXNyL2Jpbi9lbnYgYmFzaAplY2hvICJIZWxsbyBmcm9tIHNlY3JldC10by1maWxlLWFjdGlvbiBlMmUiCg=="
+          filename: "hello-world.sh"
+          is-executable: true
+          working-directory: "./a/b/c"
+      - name: Verify file is executable
+        run: test -x ./a/b/c/hello-world.sh
+      - name: Verify file content
+        run: ./a/b/c/hello-world.sh | grep -q "Hello from secret-to-file-action e2e"
+      - name: Verify file-path output
+        run: test -f "${{ steps.secret.outputs.file-path }}"

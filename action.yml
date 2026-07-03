@@ -2,8 +2,8 @@ name: "Secret to File"
 author: Sebastian Messingfeld
 description: "Create a file with the secret content"
 branding:
-  icon: 'check-circle'
-  color: 'orange'
+  icon: "check-circle"
+  color: "orange"
 inputs:
   base64-encoded-secret:
     description: "Base64 encoded content for the file"
@@ -12,14 +12,17 @@ inputs:
     description: "Name of the file for the content"
     required: true
   is-executable:
-    description: "Defines the the file permission of the created file"
-    required: false 
-    default: false
+    description: "Defines the file permission of the created file"
+    required: false
+    default: "false"
   working-directory:
     description: "Folder path for the created file"
     required: false
     default: "."
+outputs:
+  file-path:
+    description: "Absolute path of the created file"
 runs:
-  using: 'node16'
-  main: 'main.js'
-  post: 'post.js'
+  using: "node24"
+  main: "dist/main.js"
+  post: "dist/post.js"

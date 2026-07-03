@@ -1,4 +1,3 @@
-
 Short summary ...
 
 ### Type of change
@@ -10,4 +9,3 @@ Short summary ...
 ### What does this implement/fix? Explain your changes.
 
 ...
-

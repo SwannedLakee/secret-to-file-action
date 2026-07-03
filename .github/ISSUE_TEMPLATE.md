@@ -1,4 +1,3 @@
-
 Short summary ...
 
 ### Expected behaviour
@@ -11,7 +10,7 @@ Short summary ...
 
 ### Steps to reproduce the behaviour
 
-- 
+-
 -
 -
 
@@ -20,6 +19,7 @@ Short summary ...
 x.y.z
 
 ### Which host operation system is used?
+
 - [ ] Linux
 - [ ] Windows
 - [ ] macOS
